@@ -11,56 +11,86 @@
 [![Produção](https://img.shields.io/badge/Irmão-APK--PRODUCAO-00C853?style=for-the-badge&logo=github)](https://github.com/ALN2025/APK-PRODUCAO)
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 
-`com.tome.lider` · celular do líder · **único que envia ao PCP**
+`com.tome.lider` · **único APK que envia ao PCP**
 
 </div>
 
 ---
 
-## Por que este APK?
+<br/>
 
-Os operadores mandam XLS/PDF para você.  
-**Só o Líder** consolida e envia:
+# 🔀 FLUXOGRAMA — SÓ O LÍDER ENVIA AO PCP
 
-| Relatório | Origem | Você envia para |
-|-----------|--------|-----------------|
-| **PCP** | Diários importados | **PCP** |
-| **Qualidade R-022** | R-022 do dia | **Qualidade** |
-| **Folha OF** | Ordem (quando vier) | **Qualidade** (separado) |
+> Operadores mandam arquivos → você consolida → **Enviar PCP** / **Enviar Qualidade**
 
-WhatsApp · Telegram · Email — a partir do seu celular.
-
----
-
-## Fluxo
+<br/>
 
 ```mermaid
+%%{init: {
+  "theme": "dark",
+  "themeVariables": {
+    "primaryColor": "#E65100",
+    "primaryTextColor": "#fff",
+    "primaryBorderColor": "#FFB74D",
+    "lineColor": "#90CAF9",
+    "secondaryColor": "#1B5E20",
+    "tertiaryColor": "#0D47A1",
+    "fontSize": "16px"
+  }
+}}%%
+flowchart TB
+  subgraph OPS["👷 OPERADORES — APK Produção"]
+    O1[Operador A<br/>Diário + R-022]
+    O2[Operador B<br/>Diário + R-022]
+    O3[Folha OF<br/>quando salvar]
+  end
+
+  subgraph LIDER["📱 APK LÍDER — você"]
+    IMP[📥 Importar / Receber]
+    DADOS[📊 Aba Dados]
+    PCP_B[🟢 Enviar PCP]
+    QUAL_B[🔵 Enviar Qualidade]
+    IMP --> DADOS
+    DADOS --> PCP_B
+    DADOS --> QUAL_B
+  end
+
+  O1 -->|"XLS PDF"| IMP
+  O2 -->|"XLS PDF"| IMP
+  O3 -.->|"XLS PDF"| IMP
+
+  PCP_B ==> PCP[(🏭 PCP)]
+  QUAL_B ==> QUAL[(✅ Qualidade)]
+```
+
+<br/>
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": { "fontSize": "16px" }}}%%
 flowchart LR
-  OP1[Operador A]
-  OP2[Operador B]
-  IMP[Importar]
-  DADOS[Aba Dados]
-  PCP[PCP]
-  QUAL[Qualidade]
-
-  OP1 -->|Diário + R-022| IMP
-  OP2 -->|Diário + R-022| IMP
-  IMP --> DADOS
-  DADOS -->|Enviar PCP| PCP
-  DADOS -->|Enviar R-022 / OF| QUAL
+  subgraph in [Entra]
+    D[Diários]
+    R[R-022]
+    F[Folha OF]
+  end
+  subgraph out [Você envia]
+    P[PCP]
+    Q[Qualidade]
+  end
+  D --> P
+  R --> Q
+  F --> Q
 ```
 
-```
-  ┌─────────────┐     XLS/PDF      ┌──────────────┐
-  │  Produção   │ ───────────────► │    LÍDER     │
-  │  (vários)   │                  │  (este APK)  │
-  └─────────────┘                  └──────┬───────┘
-                                          │
-                         ┌────────────────┼────────────────┐
-                         ▼                                 ▼
-                   Enviar PCP                        Enviar Qualidade
-                   (WhatsApp…)                       (R-022 / Folha OF)
-```
+<br/>
+
+| Botão no app | Origem | Destino final |
+|--------------|--------|---------------|
+| **Enviar PCP** | Diários importados | **PCP** |
+| **Enviar R-022** | Cotas do dia | **Qualidade** |
+| Folha OF | Ordem | **Qualidade** (separado) |
+
+WhatsApp · Telegram · Email
 
 ---
 
@@ -68,9 +98,9 @@ flowchart LR
 
 | Aba | Função |
 |-----|--------|
-| **Importar** | Receber direto / Bluetooth / escolher arquivo |
-| **Dados** | Ver produção · **Enviar PCP** · **Enviar R-022** |
-| **Códigos** | Só **consultar** legendas (não é relatório) |
+| **Importar** | Bluetooth / receber / arquivo |
+| **Dados** | **Enviar PCP** · **Enviar Qualidade** |
+| **Códigos** | Só consultar legendas |
 
 ---
 
@@ -78,28 +108,15 @@ flowchart LR
 
 ### [`Tome_Lider.apk`](./Tome_Lider.apk)
 
-1. Desinstale a versão antiga  
-2. Instale o APK  
-3. Nome + Setor → Importar → Dados  
-
 ---
 
 ## Stack
 
-| | |
-|---|---|
-| UI | Flutter / Dart 3 |
-| Banco | SQLite (`tome_lider.db`) |
-| Import | `file_picker` · Excel/CSV |
-| Export | `excel` + `pdf` |
-| Share | `share_plus` |
-| Flavor | `lider` |
+Flutter · SQLite · excel · pdf · share_plus · flavor `lider`
 
 ---
 
 <div align="center">
-
-<br/>
 
 <img src="aln.png" alt="Dev A.L.N" height="56"/>
 
