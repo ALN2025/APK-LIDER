@@ -1,6 +1,6 @@
 # TOME Líder
 
-**Sistema de recebimento e relatórios PCP / Qualidade**  
+**Recebimento e relatórios PCP / Qualidade**  
 TOME S/A — Usinagem
 
 [![Android](https://img.shields.io/badge/Android-APK-3DDC84?logo=android&logoColor=white)](./Tome_Lider.apk)
@@ -11,109 +11,88 @@ TOME S/A — Usinagem
 |---|---|
 | **APK** | [`Tome_Lider.apk`](./Tome_Lider.apk) |
 | **Pacote** | `com.tome.lider` |
-| **Público** | Líder (celular) — importar e gerar relatórios |
+| **Público** | Líder — importar e gerar relatórios |
 | **Irmão** | [APK-PRODUCAO](https://github.com/ALN2025/APK-PRODUCAO) |
+| **Atualização** | 04/08/2026 |
 
 ---
 
-## Visão geral
+## O que o líder recebe
 
-Recebe os arquivos dos operadores e consolida:
+Do APK Produção (arquivos **separados**):
 
-| Aba | Função |
-|-----|--------|
-| **Importar** | Bluetooth / receber direto / XLS / PDF |
-| **Dados** | Produção importada + botões **PCP** e **R-022** (PDF/XLS) |
-| **Códigos** | **Só consulta** — significado de paradas, sucata, operações e roteiro OF. Não é relatório nem horas negativas |
-
-| Relatório | Origem | Destino |
-|-----------|--------|---------|
-| **PCP** | Diário | Planejamento |
-| **R-022** | Cotas do dia | Qualidade (diário) |
-| **Folha OF** | Ordem (fim) | Qualidade — **arquivo separado** do R-022 |
+| Arquivo | Conteúdo | Relatório |
+|---------|----------|-----------|
+| **Diário** | Qtd produzida + paradas (Legendas) | **PCP** |
+| **R-022** | Cotas críticas do dia | **Qualidade** (planilha diária) |
+| **Folha OF** | Roteiro OF (quando o operador salvar) | **Qualidade** (não junta com R-022) |
 
 Envio ao time: WhatsApp / Telegram / Email.
 
 ---
 
-## Mapa de fluxo
+## Abas
+
+| Aba | Função |
+|-----|--------|
+| **Importar** | Bluetooth / receber direto / XLS / PDF |
+| **Dados** | Ver importado + gerar **PCP** e **R-022** (PDF/XLS) |
+| **Códigos** | Só **consultar** legendas (parada, sucata, U/F, roteiro OF). Não é relatório |
+
+---
+
+## Fluxo
 
 ```mermaid
 flowchart LR
   op[APK Produção]
-  import[Importar / Receber]
-  dados[Aba Dados]
-  codigos[Aba Códigos]
-
-  op -->|XLS PDF separados| import --> dados
-  dados -->|PDF XLS| pcp[PCP]
-  dados -->|PDF XLS| r022[Qualidade R-022]
-  dados -->|importado| of[Folha OF]
-  codigos -->|somente leitura| legendas[Legendas]
-```
-
-```
-Operador envia arquivos SEPARADOS
-        │
-        ▼
-   APK Líder — Importar
-        │
-        ├─► Dados → PCP (Diário)
-        ├─► Dados → R-022 (Qualidade / dia)
-        ├─► Dados → Folha OF (Qualidade / fim)
-        └─► Códigos → consultar legendas
+  imp[Importar]
+  dados[Dados]
+  op -->|Diário| imp
+  op -->|R-022| imp
+  op -->|Folha OF| imp
+  imp --> dados
+  dados --> pcp[PCP]
+  dados --> qual[Qualidade]
 ```
 
 ---
 
-## Stack tecnológica
+## Stack
 
 | Camada | Tecnologia |
 |--------|------------|
-| UI | **Flutter** (Material 3), Dart 3 |
-| Persistência | **SQLite** (`sqflite`) — base `tome_lider.db` |
-| Import | **file_picker**, parse CSV/XLS |
-| Export | **excel** + **pdf** (Noto Sans) |
-| Share | **share_plus** (WhatsApp / Telegram / Email) |
-| Build | Flavor `lider` (`FLAVOR=lider`) |
-
-Mesmo projeto Flutter do Produção, flavor distinto.
+| UI | Flutter / Dart 3 |
+| Banco | SQLite (`tome_lider.db`) |
+| Import | `file_picker` + Excel/CSV |
+| Export | `excel` + `pdf` |
+| Share | `share_plus` |
+| Flavor | `lider` (`com.tome.lider`) |
 
 ---
 
 ## Instalação
 
-1. Desinstale a versão anterior.
-2. Instale [`Tome_Lider.apk`](./Tome_Lider.apk).
-3. Nome + Setor → Importar → Dados / Códigos.
+1. Desinstale a versão antiga.  
+2. Instale [`Tome_Lider.apk`](./Tome_Lider.apk).  
 
 ---
 
 ## Compilar
 
 ```bash
-cd tome_producao
-flutter pub get
 flutter build apk --release --flavor lider --dart-define=FLAVOR=lider
 ```
-
-Saída: `build/app/outputs/flutter-apk/app-lider-release.apk`
 
 ---
 
 ## Assinatura
-
-Rodapé do aplicativo:
 
 <p align="center">
   <img src="aln.png" alt="Dev A.L.N" height="48"/>
 </p>
 
 <p align="center"><b>Dev A.L.N</b> · TOME S/A · 2026</p>
-
----
-
-## Repositórios
 
 - Produção: https://github.com/ALN2025/APK-PRODUCAO  
 - Líder: https://github.com/ALN2025/APK-LIDER  
