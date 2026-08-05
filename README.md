@@ -9,7 +9,6 @@
 
 [![APK](https://img.shields.io/badge/Download-Tome__Lider.apk-FF6D00?style=for-the-badge&logo=android&logoColor=white)](./Tome_Lider.apk)
 [![Produção](https://img.shields.io/badge/Irmão-APK--PRODUCAO-00C853?style=for-the-badge&logo=github)](https://github.com/ALN2025/APK-PRODUCAO)
-[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 
 `com.tome.lider` · **único APK que envia ao PCP**
 
@@ -19,10 +18,10 @@
 
 <br/>
 
-# 🔀 FLUXOGRAMA — SÓ O LÍDER ENVIA AO PCP
+# 🔀 FLUXO — SÓ O LÍDER ENVIA AO PCP
 
-> Operador **pode** mandar Diário e **R-022** a qualquer hora.  
-> Você consolida → **Enviar PCP** (só você) / **Enviar Qualidade**.
+> Operadores mandam **Diário** e **R-022** para você.  
+> **Só você** aperta **Enviar PCP**.
 
 <br/>
 
@@ -34,68 +33,60 @@
     "primaryTextColor": "#fff",
     "primaryBorderColor": "#FFB74D",
     "lineColor": "#90CAF9",
-    "secondaryColor": "#1B5E20",
-    "tertiaryColor": "#0D47A1",
     "fontSize": "16px"
   }
 }}%%
-flowchart TB
-  subgraph OPS["👷 OPERADORES — APK Produção"]
-    O1[Operador A<br/>Diário + R-022 ok]
-    O2[Operador B<br/>Diário + R-022 ok]
-    O3[Folha OF]
-  end
+flowchart LR
+  A[Operador A] -->|Diário + R-022| L[📱 Você — Líder]
+  B[Operador B] -->|Diário + R-022| L
+  L ==>|"🟢 Enviar PCP<br/>SÓ VOCÊ"| PCP[(🏭 PCP)]
+  L -->|"🔵 Qualidade"| Q[(✅ Qualidade)]
+  A -.->|"❌ proibido"| PCP
+  B -.->|"❌ proibido"| PCP
+```
 
-  subgraph LIDER["📱 APK LÍDER — você"]
-    IMP[📥 Importar / Receber]
-    DADOS[📊 Aba Dados]
+<br/>
+
+```mermaid
+%%{init: {
+  "theme": "dark",
+  "themeVariables": {
+    "primaryColor": "#E65100",
+    "primaryTextColor": "#fff",
+    "primaryBorderColor": "#FFB74D",
+    "lineColor": "#90CAF9",
+    "fontSize": "15px"
+  }
+}}%%
+flowchart TB
+  subgraph OPS["👷 OPERADORES"]
+    O1[Diário + R-022 → Líder]
+  end
+  subgraph LIDER["📱 APK LÍDER"]
+    IMP[📥 Importar]
     PCP_B[🟢 Enviar PCP — SÓ VOCÊ]
     QUAL_B[🔵 Enviar Qualidade]
-    IMP --> DADOS
-    DADOS --> PCP_B
-    DADOS --> QUAL_B
+    IMP --> PCP_B
+    IMP --> QUAL_B
   end
-
-  O1 -->|"XLS PDF"| IMP
-  O2 -->|"XLS PDF"| IMP
-  O3 -.->|"XLS PDF"| IMP
-
+  O1 --> IMP
   PCP_B ==> PCP[(🏭 PCP)]
   QUAL_B ==> QUAL[(✅ Qualidade)]
 ```
 
 <br/>
 
-| Botão no app | Origem | Destino final |
-|--------------|--------|---------------|
-| **Enviar PCP** | Diários dos operadores | **PCP** (só o líder) |
-| **Enviar R-022** | Cotas recebidas | **Qualidade** |
+| Botão | O que junta | Destino |
+|-------|-------------|---------|
+| **Enviar PCP** | Diários | **PCP** — só o líder |
+| **Enviar R-022** | Cotas | **Qualidade** |
 | Folha OF | Ordem | **Qualidade** (separado) |
 
 ---
 
-## Abas
-
-| Aba | Função |
-|-----|--------|
-| **Importar** | Recebe Diário e R-022 dos operadores |
-| **Dados** | **Enviar PCP** · **Enviar Qualidade** |
-| **Códigos** | Consultar legendas |
-
----
-
-## Download
-
 ### [`Tome_Lider.apk`](./Tome_Lider.apk)
 
----
-
 <div align="center">
-
 <img src="aln.png" alt="Dev A.L.N" height="56"/>
-
-### Desenvolvido por **Dev A.L.N**
-
-[github.com/ALN2025](https://github.com/ALN2025) · TOME S/A · 2026
-
+### Desenvolvido por **Dev A.L.N** · TOME S/A · 2026
 </div>
