@@ -21,7 +21,8 @@
 
 # 🔀 FLUXOGRAMA — SÓ O LÍDER ENVIA AO PCP
 
-> Operadores mandam arquivos → você consolida → **Enviar PCP** / **Enviar Qualidade**
+> Operador **pode** mandar Diário e **R-022** a qualquer hora.  
+> Você consolida → **Enviar PCP** (só você) / **Enviar Qualidade**.
 
 <br/>
 
@@ -40,15 +41,15 @@
 }}%%
 flowchart TB
   subgraph OPS["👷 OPERADORES — APK Produção"]
-    O1[Operador A<br/>Diário + R-022]
-    O2[Operador B<br/>Diário + R-022]
-    O3[Folha OF<br/>quando salvar]
+    O1[Operador A<br/>Diário + R-022 ok]
+    O2[Operador B<br/>Diário + R-022 ok]
+    O3[Folha OF]
   end
 
   subgraph LIDER["📱 APK LÍDER — você"]
     IMP[📥 Importar / Receber]
     DADOS[📊 Aba Dados]
-    PCP_B[🟢 Enviar PCP]
+    PCP_B[🟢 Enviar PCP — SÓ VOCÊ]
     QUAL_B[🔵 Enviar Qualidade]
     IMP --> DADOS
     DADOS --> PCP_B
@@ -65,32 +66,11 @@ flowchart TB
 
 <br/>
 
-```mermaid
-%%{init: {"theme": "base", "themeVariables": { "fontSize": "16px" }}}%%
-flowchart LR
-  subgraph in [Entra]
-    D[Diários]
-    R[R-022]
-    F[Folha OF]
-  end
-  subgraph out [Você envia]
-    P[PCP]
-    Q[Qualidade]
-  end
-  D --> P
-  R --> Q
-  F --> Q
-```
-
-<br/>
-
 | Botão no app | Origem | Destino final |
 |--------------|--------|---------------|
-| **Enviar PCP** | Diários importados | **PCP** |
-| **Enviar R-022** | Cotas do dia | **Qualidade** |
+| **Enviar PCP** | Diários dos operadores | **PCP** (só o líder) |
+| **Enviar R-022** | Cotas recebidas | **Qualidade** |
 | Folha OF | Ordem | **Qualidade** (separado) |
-
-WhatsApp · Telegram · Email
 
 ---
 
@@ -98,21 +78,15 @@ WhatsApp · Telegram · Email
 
 | Aba | Função |
 |-----|--------|
-| **Importar** | Bluetooth / receber / arquivo |
+| **Importar** | Recebe Diário e R-022 dos operadores |
 | **Dados** | **Enviar PCP** · **Enviar Qualidade** |
-| **Códigos** | Só consultar legendas |
+| **Códigos** | Consultar legendas |
 
 ---
 
 ## Download
 
 ### [`Tome_Lider.apk`](./Tome_Lider.apk)
-
----
-
-## Stack
-
-Flutter · SQLite · excel · pdf · share_plus · flavor `lider`
 
 ---
 
