@@ -1,56 +1,110 @@
+<div align="center">
+
+<img src="aln.png" alt="Dev A.L.N" height="72"/>
+
 # TOME Líder
 
-**Único APK que envia relatórios ao PCP e à Qualidade**  
-TOME S/A — Usinagem
+### Importar · PCP · Qualidade  
+**TOME S/A · Usinagem**
 
-[![Android](https://img.shields.io/badge/Android-APK-3DDC84?logo=android&logoColor=white)](./Tome_Lider.apk)
-[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![APK](https://img.shields.io/badge/Download-Tome__Lider.apk-FF6D00?style=for-the-badge&logo=android&logoColor=white)](./Tome_Lider.apk)
+[![Produção](https://img.shields.io/badge/Irmão-APK--PRODUCAO-00C853?style=for-the-badge&logo=github)](https://github.com/ALN2025/APK-PRODUCAO)
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 
-| | |
-|---|---|
-| **APK** | [`Tome_Lider.apk`](./Tome_Lider.apk) |
-| **Pacote** | `com.tome.lider` |
-| **Irmão** | [APK-PRODUCAO](https://github.com/ALN2025/APK-PRODUCAO) |
+`com.tome.lider` · celular do líder · **único que envia ao PCP**
+
+</div>
+
+---
+
+## Por que este APK?
+
+Os operadores mandam XLS/PDF para você.  
+**Só o Líder** consolida e envia:
+
+| Relatório | Origem | Você envia para |
+|-----------|--------|-----------------|
+| **PCP** | Diários importados | **PCP** |
+| **Qualidade R-022** | R-022 do dia | **Qualidade** |
+| **Folha OF** | Ordem (quando vier) | **Qualidade** (separado) |
+
+WhatsApp · Telegram · Email — a partir do seu celular.
 
 ---
 
 ## Fluxo
 
-```
-Operadores → enviam Diário / R-022 / Folha OF ao LÍDER
-                    │
-                    ▼
-              APK Líder (este)
-                    │
-        ┌───────────┴───────────┐
-        ▼                       ▼
-   Relatório PCP          Relatório Qualidade
-   (WhatsApp/Email…)      (R-022 e/ou Folha OF)
+```mermaid
+flowchart LR
+  OP1[Operador A]
+  OP2[Operador B]
+  IMP[Importar]
+  DADOS[Aba Dados]
+  PCP[PCP]
+  QUAL[Qualidade]
+
+  OP1 -->|Diário + R-022| IMP
+  OP2 -->|Diário + R-022| IMP
+  IMP --> DADOS
+  DADOS -->|Enviar PCP| PCP
+  DADOS -->|Enviar R-022 / OF| QUAL
 ```
 
-| Botão | Origem | Destino |
-|-------|--------|---------|
-| **Enviar PCP** | Diários importados | **PCP** |
-| **Enviar R-022** | R-022 importados | **Qualidade** |
-| Folha OF | importada | **Qualidade** (separado) |
+```
+  ┌─────────────┐     XLS/PDF      ┌──────────────┐
+  │  Produção   │ ───────────────► │    LÍDER     │
+  │  (vários)   │                  │  (este APK)  │
+  └─────────────┘                  └──────┬───────┘
+                                          │
+                         ┌────────────────┼────────────────┐
+                         ▼                                 ▼
+                   Enviar PCP                        Enviar Qualidade
+                   (WhatsApp…)                       (R-022 / Folha OF)
+```
 
 ---
 
 ## Abas
 
-- **Importar** — recebe dos operadores  
-- **Dados** — gera e **envia** PCP / Qualidade  
-- **Códigos** — só consulta de legendas  
+| Aba | Função |
+|-----|--------|
+| **Importar** | Receber direto / Bluetooth / escolher arquivo |
+| **Dados** | Ver produção · **Enviar PCP** · **Enviar R-022** |
+| **Códigos** | Só **consultar** legendas (não é relatório) |
+
+---
+
+## Download
+
+### [`Tome_Lider.apk`](./Tome_Lider.apk)
+
+1. Desinstale a versão antiga  
+2. Instale o APK  
+3. Nome + Setor → Importar → Dados  
 
 ---
 
 ## Stack
 
-Flutter · SQLite · excel · pdf · share_plus · flavor `lider`
+| | |
+|---|---|
+| UI | Flutter / Dart 3 |
+| Banco | SQLite (`tome_lider.db`) |
+| Import | `file_picker` · Excel/CSV |
+| Export | `excel` + `pdf` |
+| Share | `share_plus` |
+| Flavor | `lider` |
 
 ---
 
-## Assinatura
+<div align="center">
 
-<p align="center"><img src="aln.png" alt="Dev A.L.N" height="48"/></p>
-<p align="center"><b>Dev A.L.N</b> · TOME S/A · 2026</p>
+<br/>
+
+<img src="aln.png" alt="Dev A.L.N" height="56"/>
+
+### Desenvolvido por **Dev A.L.N**
+
+[github.com/ALN2025](https://github.com/ALN2025) · TOME S/A · 2026
+
+</div>
