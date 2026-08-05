@@ -1,64 +1,95 @@
 # TOME Líder
 
-APK do **líder** (celular particular) — recebe produção, gera relatórios PCP e Qualidade — TOME S/A.
+**Sistema de recebimento e relatórios PCP / Qualidade**  
+TOME S/A — Usinagem
 
-Repositório: [ALN2025/APK-LIDER](https://github.com/ALN2025/APK-LIDER)
+[![Android](https://img.shields.io/badge/Android-APK-3DDC84?logo=android&logoColor=white)](./Tome_Lider.apk)
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-APK irmão (produção): [ALN2025/APK-PRODUCAO](https://github.com/ALN2025/APK-PRODUCAO)
-
----
-
-## Download
-
-Arquivo de instalação:
-
-**[Tome_Lider.apk](./Tome_Lider.apk)**
-
-Pacote: `com.tome.lider`
+| | |
+|---|---|
+| **APK** | [`Tome_Lider.apk`](./Tome_Lider.apk) |
+| **Pacote** | `com.tome.lider` |
+| **Público** | Líder (celular) — importar e gerar relatórios |
+| **Irmão** | [APK-PRODUCAO](https://github.com/ALN2025/APK-PRODUCAO) |
 
 ---
 
-## Para que serve
+## Visão geral
+
+Recebe os arquivos dos operadores e consolida:
 
 | Aba | Função |
 |-----|--------|
-| **Importar** | Receber arquivos dos operadores (Bluetooth / direto / XLS / PDF) |
-| **Dados** | Ver produção importada e gerar **PDF/XLS** |
-| **Códigos** | Só para **consultar** o significado das legendas (parada, sucata, operações, roteiro OF). **Não** é relatório nem horas negativas |
+| **Importar** | Bluetooth / receber direto / XLS / PDF |
+| **Dados** | Produção importada + botões **PCP** e **R-022** (PDF/XLS) |
+| **Códigos** | **Só consulta** — significado de paradas, sucata, operações e roteiro OF. Não é relatório nem horas negativas |
 
-### Relatórios (aba Dados)
+| Relatório | Origem | Destino |
+|-----------|--------|---------|
+| **PCP** | Diário | Planejamento |
+| **R-022** | Cotas do dia | Qualidade (diário) |
+| **Folha OF** | Ordem (fim) | Qualidade — **arquivo separado** do R-022 |
 
-| Botão / arquivo | Destino |
-|-----------------|---------|
-| **PCP** (Diário) | Planejamento / produção do dia |
-| **R-022** | Qualidade — planilha **do dia** |
-| **Folha OF** | Qualidade — fim da OF (**não junta** com o R-022) |
-
-Envio ao time: WhatsApp / Telegram / Email (a partir do celular do líder).
+Envio ao time: WhatsApp / Telegram / Email.
 
 ---
 
-## Instalação (Android)
+## Mapa de fluxo
 
-1. Desinstale a versão antiga (se houver).
-2. Ative instalar apps desconhecidos.
-3. Abra o `Tome_Lider.apk` e instale.
-4. Entre com **Nome + Setor**.
+```mermaid
+flowchart LR
+  op[APK Produção]
+  import[Importar / Receber]
+  dados[Aba Dados]
+  codigos[Aba Códigos]
 
-Arquivos gerados em geral em `Download/Tome`.
+  op -->|XLS PDF separados| import --> dados
+  dados -->|PDF XLS| pcp[PCP]
+  dados -->|PDF XLS| r022[Qualidade R-022]
+  dados -->|importado| of[Folha OF]
+  codigos -->|somente leitura| legendas[Legendas]
+```
+
+```
+Operador envia arquivos SEPARADOS
+        │
+        ▼
+   APK Líder — Importar
+        │
+        ├─► Dados → PCP (Diário)
+        ├─► Dados → R-022 (Qualidade / dia)
+        ├─► Dados → Folha OF (Qualidade / fim)
+        └─► Códigos → consultar legendas
+```
 
 ---
 
-## Fluxo prático
+## Stack tecnológica
 
-1. Operador envia Diário / R-022 / Folha OF (arquivos **separados**).
-2. Líder: **Importar** ou **Receber direto**.
-3. Aba **Dados** → gerar PDF/XLS PCP ou Qualidade.
-4. Aba **Códigos** → só consulta de legendas.
+| Camada | Tecnologia |
+|--------|------------|
+| UI | **Flutter** (Material 3), Dart 3 |
+| Persistência | **SQLite** (`sqflite`) — base `tome_lider.db` |
+| Import | **file_picker**, parse CSV/XLS |
+| Export | **excel** + **pdf** (Noto Sans) |
+| Share | **share_plus** (WhatsApp / Telegram / Email) |
+| Build | Flavor `lider` (`FLAVOR=lider`) |
+
+Mesmo projeto Flutter do Produção, flavor distinto.
 
 ---
 
-## Compilar (desenvolvimento)
+## Instalação
+
+1. Desinstale a versão anterior.
+2. Instale [`Tome_Lider.apk`](./Tome_Lider.apk).
+3. Nome + Setor → Importar → Dados / Códigos.
+
+---
+
+## Compilar
 
 ```bash
 cd tome_producao
@@ -70,6 +101,19 @@ Saída: `build/app/outputs/flutter-apk/app-lider-release.apk`
 
 ---
 
-## Créditos
+## Assinatura
 
-TOME S/A · 2026
+Rodapé do aplicativo:
+
+<p align="center">
+  <img src="aln.png" alt="Dev A.L.N" height="48"/>
+</p>
+
+<p align="center"><b>Dev A.L.N</b> · TOME S/A · 2026</p>
+
+---
+
+## Repositórios
+
+- Produção: https://github.com/ALN2025/APK-PRODUCAO  
+- Líder: https://github.com/ALN2025/APK-LIDER  
